@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>AirDrop</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/airdrop-main/WEB2.0/logos/AirDrop-Logo-Generic.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/airdrop-main/WEB2.0/estilos/styles.css">
+    <link rel="stylesheet" href="/airdrop-main/WEB2.0/index/estilos-productos/nav-bar-2-gen.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/airdrop-main/WEB2.0/index/estilos-productos/footer.css">
+    <link rel="stylesheet" href="/airdrop-main/WEB2.0/prueba-2.css">
+    <link rel="stylesheet" href="/airdrop-main/WEB2.0/reseñas.css">
+    <link rel="stylesheet" href="/airdrop-main/WEB2.0/index/estilos-productos/perfil-boton.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+</head>
+<body>
+    <header>
+        <nav>
+            <img src="/airdrop-main/WEB2.0/logos/AirDrop-Logo-Generic.png" alt="Logo" class="logo">
+            <h3>AirDrop</h3>
+            <div class="menu-toggle">
+                <li class="downperfil">
+                    <button class="boton-perfil" id="toggleProfileMobile">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: white;" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                    </button>
+            
+                    <div class="nav-vertical" id="navVerticalMobile">
+                        <button class="close-btn" id="closeNavMobile">X</button>
+            
+                        <div class="content-perfil">
+                            <ul class="ref-login" id="loginRegisterButtons">
+                                <li class="ref-li"><a href="#" class="nohover" id="openLogin">Iniciar Sesión</a></li>
+                                <li class="ref-li"><a href="#" class="nohover" id="openRegister">Regístrate</a></li>
+                            </ul>
+            
+                            <!-- Formulario de inicio de sesión móvil -->
+                            <div id="loginForm" class="hidden">
+                                <h2 class="title-h2">Iniciar Sesión</h2>
+                                <form action="login.php" method="POST">
+                                    <div class="input-group">
+                                        <label for="email" class="email">Correo Electrónico</label>
+                                        <input type="email" id="loginEmail" name="email" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="password">Contraseña</label>
+                                        <input type="password" id="loginPassword" name="password" required>
+                                    </div>
+                                    <div class="forgot">
+                                        <a href="#">¿Olvidó su contraseña?</a>
+                                    </div>
+                                    <button id="loginBtn" class="iniciar-sesion">Iniciar Sesión</button>
+                                </form>
+                                <div class="social-messages">
+                                    <div class="line"></div>
+                                    <p class="message">Accede con cuentas sociales</p>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="icons">
+                                    <i class="fa-brands fa-google"></i>
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                    <i class="fa-brands fa-github"></i>
+                                </div>
+                                <p class="sign-up" id="toggleToRegister">¿No tienes cuenta? <a href="#" id="openRegister">Regístrate</a></p>
+                            </div>
+            
+                            <!-- Formulario de registro móvil -->
+                            <div id="registerForm" class="hidden">
+                                <h2 class="title-h2">Registro</h2>
+                                <form action="register.php" method="POST">
+                                    <div class="input-group">
+                                        <label for="name">Nombre</label>
+                                        <input type="text" id="registerFirstName" name="name" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="surname">Apellidos</label>
+                                        <input type="text" id="registerLastName" name="surname" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="email">Correo Electrónico</label>
+                                        <input type="email" id="registerContact" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="password">Contraseña</label>
+                                        <input type="password" id="registerPassword" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="password">Confirmar Contraseña</label>
+                                        <input type="password" id="registerConfirmPassword" required>
+                                    </div>
+                                    <button id="registerBtn" class="iniciar-sesion">Registrarse</button>
+                                </form>
+                                <div class="social-messages">
+                                    <div class="line"></div>
+                                    <p class="message">Regístrate con cuentas sociales</p>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="icons">
+                                    <i class="fa-brands fa-google"></i>
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                    <i class="fa-brands fa-github"></i>
+                                </div>
+                                <p class="sign-up">¿Ya tienes cuenta? <a href="#" id="openLogin">Iniciar Sesión</a></p>
+                            </div>
+            
+                            <!-- Mensaje de bienvenida móvil -->
+                            <div id="welcomeMessage" class="hidden">
+                                <h2 id="userGreeting"></h2>
+                                <div class="content-usuario" id="contentUsuario">
+                                    <ul class="ref-usuario">
+                                        <li class="re-usuario"><a href="/mi-cuenta.html">Mi Cuenta</a></li>
+                                        <li class="re-usuario"><a href="#">Mis Pedidos</a></li>
+                                        <li class="re-usuario"><a href="#" id="changeAccountBtn">Cambiar de Cuenta</a></li>
+                                        <li class="re-usuario"><a href="#" id="logoutBtn">Cerrar Sesión</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                </svg>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/airdrop-main/WEB2.0/index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="/airdrop-main/WEB2.0/index/shop.html" class="dropbtn">Shop</a>
+                    <div class="dropdown-content">
+                        <a href="/airdrop-main/WEB2.0/index/airpods-2-gen.html">AirPods 2ªgen</a>
+                        <a href="/airdrop-main/WEB2.0/index/airpods-3-gen.html">AirPods 3ªGen</a>
+                        <a href="/airdrop-main/WEB2.0/index/airpods-pro-ANC.html">AirPods Pro</a>
+                        <a href="/airdrop-main/WEB2.0/index/airpods-pro-2-ANC.html">AirPods Pro 2</a>
+                        <a href="/airdrop-main/WEB2.0/index/airpods-max.html">AirPods Max</a>
+                    </div>
+                </li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="/airdrop-main/WEB2.0/index/sobre-mi.html">About Me</a></li>
+                <div class="cart">
+                <li>
+                    <a href="/airdrop-main/WEB2.0/index/carrito.html" id="cartButton">
+                        <!-- SVG del carrito -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-basket2-fill" viewBox="0 0 16 16">
+                            <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1"/>
+                          </svg>
+                          <span id="cartCount" class="cart-count">0</span>
+                    </a>
+                </li>
+            </div>
+            <li class="downperfil">
+                <button class="boton-perfil" id="toggleProfileDesktop">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="color: white;" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+                </button>
+    
+                <div class="nav-vertical" id="navVerticalDesktop">
+                    <button class="close-btn" id="closeNavDesktop">X</button>
+    
+                    <div class="content-perfil">
+                        <ul class="ref-login" id="loginRegisterButtons">
+                            <li class="ref-li"><a href="#" class="nohover" id="openLogin">Iniciar Sesión</a></li>
+                            <li class="ref-li"><a href="#" class="nohover" id="openRegister">Regístrate</a></li>
+                        </ul>
+    
+                        <!-- Formulario de inicio de sesión -->
+                        <div id="loginForm" class="hidden">
+                            <h2 class="title-h2">Iniciar Sesión</h2>
+                            <form action="login.php" method="POST">
+                                <div class="input-group">
+                                    <label for="email" class="email">Correo Electrónico</label>
+                                    <input type="email" id="loginEmail" name="email" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="password">Contraseña</label>
+                                    <input type="password" id="loginPassword" name="password" required>
+                                </div>
+                                <div class="forgot">
+                                    <a href="#">¿Olvidó su contraseña?</a>
+                                </div>
+                                <button id="loginBtn" class="iniciar-sesion">Iniciar Sesión</button>
+                            </form>
+                            <div class="social-messages">
+                                <div class="line"></div>
+                                <p class="message">Accede con cuentas sociales</p>
+                                <div class="line"></div>
+                            </div>
+                            <div class="icons">
+                                <i class="fa-brands fa-google"></i>
+                                <i class="fa-brands fa-x-twitter"></i>
+                                <i class="fa-brands fa-github"></i>
+                            </div>
+                            <p class="sign-up" id="toggleToRegister">¿No tienes cuenta? <a href="#" id="openRegister">Regístrate</a></p>
+                        </div>
+    
+                        <!-- Formulario de registro -->
+                        <div id="registerForm" class="hidden">
+                            <h2 class="title-h2">Registro</h2>
+                            <form action="register.php" method="POST">
+                                <div class="input-group">
+                                    <label for="name">Nombre</label>
+                                    <input type="text" id="registerFirstName" name="name" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="surname">Apellidos</label>
+                                    <input type="text" id="registerLastName" name="surname" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="email">Correo Electrónico</label>
+                                    <input type="email" id="registerContact" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="password">Contraseña</label>
+                                    <input type="password" id="registerPassword" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="password">Confirmar Contraseña</label>
+                                    <input type="password" id="registerConfirmPassword" required>
+                                </div>
+                                <button id="registerBtn" class="iniciar-sesion">Registrarse</button>
+                            </form>
+                            <div class="social-messages">
+                                <div class="line"></div>
+                                <p class="message">Regístrate con cuentas sociales</p>
+                                <div class="line"></div>
+                            </div>
+                            <div class="icons">
+                                <i class="fa-brands fa-google"></i>
+                                <i class="fa-brands fa-x-twitter"></i>
+                                <i class="fa-brands fa-github"></i>
+                            </div>
+                            <p class="sign-up">¿Ya tienes cuenta? <a href="#" id="openLogin">Iniciar Sesión</a></p>
+                        </div>
+    
+                        <!-- Mensaje de bienvenida -->
+                        <div id="welcomeMessage" class="hidden">
+                            <h2 id="userGreeting"></h2>
+                            <div class="content-usuario" id="contentUsuario">
+                                <ul class="ref-usuario">
+                                    <li class="re-usuario"><a href="/mi-cuenta.html">Mi Cuenta</a></li>
+                                    <li class="re-usuario"><a href="#">Mis Pedidos</a></li>
+                                    <li class="re-usuario"><a href="#" id="changeAccountBtn">Cambiar de Cuenta</a></li>
+                                    <li class="re-usuario"><a href="#" id="logoutBtn">Cerrar Sesión</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            
+            
+            
+            
+            
+            </ul>
+        </nav>
+    
+        <div id="overlay" class="overlay">
+            <div class="close-overlay" id="closeOverlay">X</div>
+            <ul class="overlay-links">
+                <li><a href="/airdrop-main/WEB2.0/index.html">Home</a></li>
+                <li>
+                    <details>
+                        <summary class="summary-title"><a href="/airdrop-main/WEB2.0/index/shop.html" class="dropbtn">Shop</a></summary>
+                        <ul class="ul-links">
+                           <li class="li-links"><a href="/airdrop-main/WEB2.0/index/airpods-2-gen.html">AirPods 2ªgen</a></li> 
+                           <li class="li-links"><a href="/airdrop-main/WEB2.0/index/airpods-3-gen.html">AirPods 3ªGen</a></li> 
+                            <li class="li-links"><a href="/airdrop-main/WEB2.0/index/airpods-pro-ANC.html">AirPods Pro</a></li>
+                            <li class="li-links"><a href="/airdrop-main/WEB2.0/index/airpods-pro-2-ANC.html">AirPods Pro 2</a></li>
+                            <li class="li-links"><a href="/airdrop-main/WEB2.0/index/airpods-max.html">AirPods Max</a></li>
+                        </ul>
+                                           
+                      </details>
+                </li>
+                
+
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">About Me</a></li>
+                <div class="carts">
+                    <li>
+                        <a href="/airdrop-main/WEB2.0/index/carrito.html" id="cartButton">
+                            <!-- SVG del carrito -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-basket2-fill" viewBox="0 0 16 16">
+                                <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1"/>
+                              </svg>
+                              <span id="cartCount" class="cart-count">0</span>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </header>
+    
+    
+    
+
+   <div class="container">
+    <div class="left-content">
+        <h1 id="slogan">¡Escucha sin límites, con calidad perfecta y estilo inigualable!</h1>
+        <p id="description" style="color: #ccc;">Nuestros AirPods réplica ofrecen la misma experiencia de sonido premium que los originales, con un diseño idéntico, ajuste cómodo y conexión inalámbrica perfecta. Disfruta de una calidad de audio cristalina, controles táctiles intuitivos y una batería de larga duración, todo a un precio accesible. ¡Haz que tu día a día suene mejor sin comprometer tu bolsillo!</p>
+        <li id="description"><a href="/airdrop-main/WEB2.0/index/shop.html" class="nohover">Compra Ya</a></li>
+        <div class="home-social">
+            <ul>
+                <li><a href="#"><i
+                            class="fa-brands fa-facebook fa-xl"></i></a></li>
+                <li><a href="#"><i class="fa-brands fa-x-twitter fa-xl"
+                            style="color: #ffffff;"></i></a></li>
+                <li><a href="#"><i class="fa-brands fa-youtube fa-xl" style="color: #df0c0c;"></i></a></li>
+                <li><a href="https://www.instagram.com/airdrop.ecom/"><i class="fa-brands fa-instagram fa-xl"></i></a></li>
+            </ul>
+           </div>
+    </div>
+    <div id="modelContainer">
+
+    </div> <!-- Contenedor del modelo 3D -->
+</div>
+
+<div class="productos-airpods">
+    <h2 class="title-content">Productos Destacados</h2>
+    <p class="descripcion-content" style="color: #ccc;">Nuestros productos, la mejor réplica del mundo, diseñada para ti.</p>
+    <li style="justify-content: center; margin: 0;position: relative; display: flex;"><a href="/airdrop-main/WEB2.0/index/shop.html" class="nohover">Todos nuestros productos</a></li>
+    <!-- Primer producto (imagen a la derecha) -->
+    <div class="airpods-2-gen-container">
+        <div class="airpods-2-gen-text">
+            <h2>AirPods 2ª Generación - Réplica Premium</h2>
+            <p>Disfruta de la experiencia de sonido de alta calidad con estos AirPods 2da Generación (2019), una réplica perfecta en diseño y funcionalidad. Son 100% idénticos a los originales, tanto en apariencia como en rendimiento. Incluso Apple no puede distinguir la diferencia. Ideales para quienes buscan lo mejor en tecnología inalámbrica, sin comprometer su bolsillo. ¡Experimenta la libertad de moverte sin cables y con la máxima calidad de audio!</p>
+            <br>
+            <div class="price-container">
+                <span class="old-price">49,99€ EUR</span>
+                <span class="new-price">24,99€ EUR</span>
+                <span class="offer-badge">Oferta</span>
+            </div>
+            <br>
+            <li><a href="/airdrop-main/WEB2.0/index/airpods-2-gen.html" class="nohover">Mas Información</a></li>
+        </div>
+        <div class="airpods-2-gen-image">
+            <ul>
+                <img src="./AirPods/2ª Gen/PNG/airpods-2-gen.png" class="image" style="width: 120%;">
+            </ul>
+        </div>
+    </div>
+
+    <!-- Segundo producto (imagen a la izquierda) -->
+    <div class="airpods-pro-gen-container">
+        <div class="airpods-pro-gen-image">
+            <ul>
+                <img src="./AirPods/3ª Gen/PNG/airpods-3-gen.png" class="image">
+            </ul>
+        </div>
+        <div class="airpods-pro-gen-text">
+            <h2>AirPods 3ª Generación - Réplica Premium</h2>
+            <p>Experimenta el sonido envolvente con los AirPods 3ra Generación, una réplica perfecta que ofrece la misma calidad y diseño que los originales de Apple. Con un ajuste cómodo y un rendimiento excepcional, estos auriculares inalámbricos son ideales para disfrutar de tus playlists y podcasts favoritos. La indistinguibilidad con los productos originales asegura que incluso Apple no pueda notar la diferencia. ¡Descubre la libertad de un audio superior sin cables y a un precio accesible!</p>
+            <br>
+            <div class="price-container">
+                <span class="old-price">64,99€ EUR</span>
+                <span class="new-price">31,99€ EUR</span>
+                <span class="offer-badge">Oferta</span>
+            </div>
+            <br>
+            <li><a href="/airdrop-main/WEB2.0/index/airpods-3-gen.html" class="nohover">Mas Información</a></li>
+        </div>
+    </div>
+    <div class="airpods-2-gen-container">
+        <div class="airpods-2-gen-text">
+            <h2>AirPods Pro 1ª Generación - Réplica Premium</h2>
+            <p>Sumérgete en un sonido de alta fidelidad con los AirPods Pro 1ra Generación, una réplica perfecta que combina la elegancia de Apple con un rendimiento excepcional. Equipados con cancelación activa de ruido y un diseño ergonómico, estos auriculares ofrecen comodidad y calidad de audio inigualables. Su aspecto idéntico a los originales garantiza que incluso Apple no pueda diferenciarlos. Disfruta de la experiencia de audio premium sin comprometer tu presupuesto. ¡Descubre el placer de escuchar música sin interrupciones y con total libertad!</p>
+            <br>
+            <div class="price-container">
+                <span class="old-price">85,99€ EUR</span>
+                <span class="new-price">42,99€ EUR</span>
+                <span class="offer-badge">Oferta</span>
+            </div>
+            <br>
+            <li><a href="/airdrop-main/WEB2.0/index/airpods-pro-ANC.html" class="nohover">Mas Información</a></li>
+        </div>
+        <div class="airpods-2-gen-image" style="width: 150%; margin-left: -70px;">
+            <ul>
+                <img src="./AirPods/Pro/PNG/airpods-pro-1.png" class="image">
+            </ul>
+        </div>
+    </div>
+    <div class="airpods-pro-gen-container">
+        <div class="airpods-pro-gen-image">
+            <ul>
+                <img src="./AirPods/Pro 2/PNG/airpods-pro-2.png" class="image">
+            </ul>
+        </div>
+        <div class="airpods-pro-gen-text">
+            <h2>AirPods Pro 2ª Generación - Réplica Premium</h2>
+            <p>Descubre un nuevo nivel de audio con los AirPods Pro 2da Generación, una réplica perfecta que ofrece la misma calidad y tecnología que los originales de Apple. Con cancelación activa de ruido avanzada y un sonido envolvente, estos auriculares están diseñados para quienes buscan una experiencia auditiva excepcional. Su diseño ergonómico y su aspecto idéntico a los originales aseguran que incluso Apple no pueda notar la diferencia. ¡Disfruta de una experiencia de audio superior y comodidad durante todo el día, todo a un precio asequible!</p>
+            <br>
+            
+            <div class="price-container">
+                <span class="old-price">93,99€ EUR</span>
+                <span class="new-price">46,99€ EUR</span>
+                <span class="offer-badge">Oferta</span>
+            </div>
+            <br>
+            <li><a href="/airdrop-main/WEB2.0/index/airpods-pro-2-ANC.html" class="nohover">Mas Información</a></li>
+        </div>
+    </div>
+    <div class="airpods-2-gen-container">
+        <div class="airpods-2-gen-text">
+            <h2>AirPods 4 - Réplica Premium</h2>
+            <p>Disfruta de la última tecnología de sonido con los AirPods 4, una réplica perfecta de la nueva generación de auriculares de Apple. Ahora con Cancelación Activa de Ruido (ANC), ofrecen un rendimiento superior, reduciendo los sonidos externos sin sacrificar la comodidad de su diseño abierto. Equipados con el potente chip H2, estos auriculares garantizan una calidad de audio inigualable, con graves más profundos y un sonido más nítido. Su diseño ergonómico es indistinguible del original, tanto que incluso Apple no podría notar la diferencia. ¡Libérate de los cables y disfruta de hasta 30 horas de autonomía con la comodidad de la carga USB-C y una experiencia de audio envolvente gracias al Audio Espacial Personalizado!</p>
+            <br>
+            <div class="price-container">
+                <span class="old-price">104.99 EUR</span>
+                <span class="new-price">51,99€ EUR</span>
+                <span class="offer-badge">Oferta</span>
+            </div>
+            <br>
+            <li><a href="/airdrop-main/WEB2.0/index/airpods-4.html" class="nohover">Mas Información</a></li>
+        </div>
+        <div class="airpods-2-gen-image" style="width: 150%; margin-left: -70px;">
+            <ul>
+                <img src="/airdrop-main/WEB2.0/AirPods/4ª Generacion/PNG/airpods_4gen_01-Photoroom.png" class="image">
+            </ul>
+        </div>
+    </div>
+    <div class="airpods-pro-gen-container">
+        <div class="airpods-pro-gen-image">
+            <ul>
+                <img src="/airdrop-main/WEB2.0/AirPods/Max/PNG/airpods_max_02-Photoroom.png" class="image">
+            </ul>
+        </div>
+        <div class="airpods-pro-gen-text">
+            <h2>AirPods Max - Réplica Premium</h2>
+            <p>Eleva tu experiencia auditiva con los AirPods Max, una réplica perfecta que combina un diseño elegante y una calidad de sonido excepcional. Estos auriculares over-ear ofrecen una cancelación activa de ruido y un audio envolvente que te transportará a un nuevo nivel de inmersión. Con materiales de alta calidad y un ajuste cómodo, son ideales para largas sesiones de escucha. Su aspecto idéntico a los originales garantiza que incluso Apple no pueda diferenciarlos. ¡Disfruta de la perfección del sonido y del lujo de los AirPods Max a un precio accesible!</p>
+            <br>
+            <div class="price-container">
+                <span class="old-price">249,99€ EUR</span>
+                <span class="new-price">109,99€ EUR</span>
+                <span class="offer-badge">Oferta</span>
+            </div>
+            <br>
+            <li><a href="/airdrop-main/WEB2.0/index/airpods-max.html" class="nohover">Mas Información</a></li>
+        </div>
+    </div>
+</div>
+<div class="container-reviews">
+    <div class="chart-container"> <!-- NUEVO DIV -->
+        <h2>Reseñas de nuestros clientes</h2>
+        <div class="chart-row">
+            <div class="chart">
+                <div class="rate-box">
+                    <span class="value">5</span>
+                    <div class="progress-bar">
+                        <span class="progress"></span>
+                    </div>
+                    <span class="count">0</span>
+                </div>
+                <div class="rate-box">
+                    <span class="value">4</span>
+                    <div class="progress-bar"><span class="progress"></span></div>
+                    <span class="count">0</span>
+                </div>
+                <div class="rate-box">
+                    <span class="value">3</span>
+                    <div class="progress-bar"><span class="progress"></span></div>
+                    <span class="count">0</span>
+                </div>
+                <div class="rate-box">
+                    <span class="value">2</span>
+                    <div class="progress-bar"><span class="progress"></span></div>
+                    <span class="count">0</span>
+                </div>
+                <div class="rate-box">
+                    <span class="value">1</span>
+                    <div class="progress-bar"><span class="progress"></span></div>
+                    <span class="count">0</span>
+                </div>
+            </div>
+            <div class="global">
+                <span class="global-value">0.0</span>
+                <div class="rating-icons">
+                    <span class="one"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                </div>
+                <span class="total-reviews">0</span>
+            </div>
+        </div>
+    </div> <!-- FIN DEL NUEVO DIV -->
+    
+    <div class="supaviews">
+        <div class="supaviews__add">
+            <div class="supaview">
+                <h1 class="supaview__title">Añadir nueva reseña</h1>
+                <form id="review">
+                    <fieldset class="supaview__rating">
+                        <input type="radio" id="star5" name="rate" value="5" />
+                        <label for="star5"></label>
+                        <input type="radio" id="star4" name="rate" value="4" />
+                        <label for="star4"></label>
+                        <input type="radio" id="star3" name="rate" value="3" />
+                        <label for="star3"></label>
+                        <input type="radio" id="star2" name="rate" value="2" />
+                        <label for="star2"></label>
+                        <input type="radio" id="star1" name="rate" value="1" />
+                        <label for="star1"></label>
+                    </fieldset>
+                    <div class="supaview__copy">
+                        <input type="text" name="name" placeholder="Nombre" required />
+                        <textarea name="message" placeholder="Mensaje" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="supaview__submit">Enviar reseña</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="supaviews__list">
+    <div class="supaview">Parece vacío por aquí...</div>
+</div>
+
+<div class="correo-footer">
+    <div class="correo-container">
+        <h2>Suscribete a nuestro email</h2>
+            <form class="correo-newsletter">
+                <div class="newsletter">
+                    <div class="field">
+                        <input class="inputt" id="subs-email" type="email" name="contact[email]" value aria-required="true" autocorrect="off" autocapitalize="off" autocomplete="email" placeholder="Correo electrónico" required>
+                <label class="labell" for="subs-email">Correo electrónico</label>
+                <button type="submit" name="commit" id="Subscribe" arial-label="Suscribirse">
+                    <span class="svg-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="icon icon-arrow" viewBox="0 0 14 10"><path fill="currentColor" fill-rule="evenodd" d="M8.537.808a.5.5 0 0 1 .817-.162l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 1 1-.708-.708L11.793 5.5H1a.5.5 0 0 1 0-1h10.793L8.646 1.354a.5.5 0 0 1-.109-.546" clip-rule="evenodd"></path></svg>
+                    </span>
+                </button>
+                    </div>
+                </div>
+
+            </form>
+    </div>
+</div>
+
+
+
+
+<!-- Fontawesome 6 is used for footer social icons -->
+<!-- FOOTER START -->
+<footer id="custom-footer" class="footer" role="contentinfo" itemscope itemtype="http://schema.org/WPFooter">
+    <div class="footer-container">
+      <div class="footer-col" role="navigation" aria-labelledby="quick-nav-heading" itemscope itemtype="http://schema.org/SiteNavigationElement">
+        <h3 id="quick-nav-heading" itemprop="name">AirDrop</h3>
+        <ul>
+          <li><a href="#" itemprop="url">Inicio</a></li>
+          <li><a href="#" itemprop="url">Tienda</a></li>
+          <li><a href="#" itemprop="url">Proyectos</a></li>
+          <li><a href="#" itemprop="url">Sobre Nosotros</a></li>
+          <li><a href="#" itemprop="url">Preguntas Frecuentes</a></li>
+        </ul>
+      </div>
+      <div class="footer-col" role="navigation" aria-labelledby="know-heading">
+        <h3 id="know-heading" itemprop="name">Comprar</h3>
+        <ul>
+          <li><a href="#" itemprop="url">AirPods</a></li>
+          <li><a href="#" itemprop="url">Cargadores</a></li>
+          <li><a href="#" itemprop="url">Accesorios</a></li>
+          <li><a href="#" itemprop="url">Kit de limpieza</a></li>
+          <li><a href="#" itemprop="url">Cosmética</a></li>
+        </ul>
+      </div>
+      <div class="footer-col" role="navigation" aria-labelledby="contents-heading">
+        <h3 id="contents-heading" itemprop="name">Acerca de </h3>
+        <ul>
+          <li><a href="#" itemprop="url">Trabaja con nosotros</a></li>
+          <li><a href="#" itemprop="url">Ecommerce</a></li>
+          <li><a href="#" itemprop="url">Marketing digital</a></li>
+          <li><a href="#" itemprop="url">Ética y conducta </a></li>
+          <li><a href="#" itemprop="url">Eventos</a></li>
+          <li><a href="#" itemprop="url">Privacidad</a></li>
+        </ul>
+      </div>
+      <div class="footer-col" role="navigation" aria-labelledby="resources-heading">
+        <h3 id="resources-heading" itemprop="name">Coming Soon</h3>
+        <ul>
+          <li><a href="#" itemprop="url">Perfumes</a></li>
+          <li><a href="#" itemprop="url">Relojes</a></li>
+          <li><a href="#" itemprop="url">Ropa</a></li>
+          <li><a href="#" itemprop="url">Seguimiento de envíos</a></li>
+          <li><a href="#" itemprop="url">Vende con nosotros</a></li>
+          <li><a href="#" itemprop="url">Marca de ropa</a></li>
+        </ul>
+      </div>
+      <div class="footer-col" role="navigation" aria-labelledby="support-heading">
+        <h3 id="support-heading" itemprop="name">Soporte</h3>
+        <ul>
+          <li><a href="#" itemprop="url">Contacto</a></li>
+          <li><a href="#" itemprop="url">Redes sociales</a></li>
+          <li><a href="#" itemprop="url">E-mail</a></li>
+        </ul>
+      </div>
+      <div class="footer-col social" role="navigation" aria-labelledby="social-heading">
+        <h3 id="social-heading" itemprop="name">Social</h3>
+        <ul class="social-icons">
+            <li><a href="#" aria-label="Facebook" itemprop="url"><i class="fa-brands fa-facebook fa-xl"></i></a></li>
+            <li><a href="#" aria-label="Twitter" itemprop="url"><i class="fa-brands fa-x-twitter fa-xl"></i></a></li>
+            <li><a href="#" aria-label="Youtube" itemprop="url"><i class="fa-brands fa-youtube fa-xl"></i></a></li>
+            <li><a href="#" aria-label="Instagram" itemprop="url"><i class="fa-brands fa-instagram fa-xl"></i></a></li>
+          </ul>
+          
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="footer-bottom">
+    <p>Copyright © 2024 AirDrop Inc. Todos los derechos reservados.</p>
+    <ul class="footer-bottom-links">
+      <li><a href="#">Política de privacidad</a></li>
+      <li><a href="#">Uso de cookis</a></li>
+      <li><a href="#">Condiciones de uso</a></li>
+      <li><a href="#">Ventas y reembolsos</a></li>
+      <li><a href="#">Avisos legales</a></li>
+    </ul>
+  </div>
+  
+  </footer>
+  <!-- END OF FOOTER -->
+  
+  <script src="/airdrop-main/WEB2.0/js/reviews.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="/airdrop-main/WEB2.0/js/airpods.js"></script>
+    <script src="/airdrop-main/WEB2.0/js/funcion-escritura.js"></script>
+    <script src="/airdrop-main/WEB2.0/js/cartcount.js"></script>
+    <script src="/airdrop-main/WEB2.0/js/cart.js"></script>
+    <script src="/airdrop-main/WEB2.0/js/menutoggle.js"></script>
+    <script src="/airdrop-main/WEB2.0/js/perfil-boton.js"></script>
+</body>
+</html>
