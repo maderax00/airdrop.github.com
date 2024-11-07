@@ -13,7 +13,852 @@
     <link rel="stylesheet" href="/airdrop-main/WEB2.0/reseñas.css">
     <link rel="stylesheet" href="/airdrop-main/WEB2.0/index/estilos-productos/perfil-boton.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+        /* General styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+    background-color: black;
+    color: white;
+}
 
+/* Layout container for content */
+.container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.left-content {
+    flex: 1;
+    padding: 20px;
+    max-width: 600px;
+    text-align: left;
+}
+
+.left-content h1 {
+    font-size: 2.5em;
+    color: #ffffff;
+    margin-top: 15%;
+    margin-bottom: 15px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+.left-content p {
+    font-size: 1.1em;
+    color: #f5f5f5;
+    opacity: 0;
+    transition: opacity 0.5s ease-in 0.5s;
+    display: none;
+}
+
+/* Home Social Styles */
+.home-social ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    list-style: none;
+    margin-top: 3%;
+}
+
+.home-social li {
+    padding: 5%;
+}
+
+/* 3D Model container */
+#modelContainer {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    max-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Apartado de Productos */
+.productos-edit {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 2%;
+    justify-content: center;
+    gap: 2%;
+    text-align: center;
+}
+
+.productos-title {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 2em;
+    font-weight: bold;
+    color: #fff;
+}
+
+.productos-content {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.productos-edit > div {
+    background-color: #0f0f0f;
+    width: 23%;
+    height: auto;
+    margin: 10px;
+    text-align: center;
+    gap: 10px;
+    animation: slideTop 0.5s ease-out;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Imagen de productos */
+.airpods-2-gen, .airpods-3-gen, .airpods-pro, .airpods-pro2, .airpods-max {
+    height: auto;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.59);
+    backdrop-filter: blur(8.5px);
+    -webkit-backdrop-filter: blur(8.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 10px;
+    margin: 0 auto;
+    max-width: 45%;
+    transition: max-width 0.3s ease;
+}
+
+.image {
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+}
+
+.image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 10%, rgba(255, 255, 255, 1) 50%);
+    pointer-events: none;
+    z-index: 2;
+}
+.render-airpods{
+    display: flex;
+    align-items: center;
+    background-color: black;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+}
+.render{
+    flex: 1;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #modelContainer {
+        max-width: 100%;
+        height: 300px;
+    }
+
+    .left-content {
+        text-align: center;
+    }
+
+    .left-content h1 {
+        font-size: 2em;
+    }
+
+    .productos-edit > div {
+        width: 90%;
+    }
+
+    .airpods-2-gen, .airpods-3-gen, .airpods-pro, .airpods-pro2, .airpods-max {
+        max-width: 70%;
+    }
+}
+
+@media (max-width: 768px) {
+    .airpods-2-gen, .airpods-3-gen, .airpods-pro, .airpods-pro2, .airpods-max {
+        max-width: 90%;
+    }
+
+    .left-content h1 {
+        font-size: 1.8em;
+    }
+
+    .left-content p {
+        font-size: 1em;
+    }
+
+    #modelContainer {
+        height: 250px;
+    }
+
+    .experience1, .experience2, .experience3 {
+        width: 90%;
+        margin-left: 0;
+    }
+}
+
+/*=============== GOOGLE FONTS ===============*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+/*=============== VARIABLES CSS ===============*/
+:root {
+	--header-height: 3rem;
+	/*========== Colors ==========*/
+	--hue-color: 206;
+	--black-color: hsl(var(--hue-color), 4%, 4%);
+	--black-color-alt: hsl(var(--hue-color), 4%, 8%);
+	--title-color: hsl(var(--hue-color), 4%, 95%);
+	--text-color: hsl(var(--hue-color), 4%, 75%);
+	--text-color-light: hsl(var(--hue-color), 4%, 65%);
+	--white-color: #fff;
+	--body-color: hsl(var(--hue-color), 4%, 6%);
+	--container-color: hsl(var(--hue-color), 4%, 10%);
+	--text-gradient: linear-gradient(
+		hsl(var(--hue-color), 4%, 24%),
+		hsl(var(--hue-color), 4%, 8%)
+	);
+	--scroll-thumb-color: hsl(var(--hue-color), 4%, 16%);
+	--scroll-thumb-color-alt: hsl(var(--hue-color), 4%, 20%);
+	/*========== Font and typography ==========*/
+	--body-font: "Poppins", sans-serif;
+	--biggest-font-size: 5rem;
+	--bigger-font-size: 3.5rem;
+	--big-font-size: 2.5rem;
+	--h2-font-size: 1.25rem;
+	--h3-font-size: 1.125rem;
+	--normal-font-size: 0.938rem;
+	--small-font-size: 0.813rem;
+	--smaller-font-size: 0.75rem;
+	--text-line-height: 2rem;
+	/*========== Font weight ==========*/
+	--font-medium: 500;
+	--font-semi-bold: 600;
+	/*========== Margenes Bottom ==========*/
+	--mb-0-5: 0.5rem;
+	--mb-0-75: 0.75rem;
+	--mb-1: 1rem;
+	--mb-1-5: 1.5rem;
+	--mb-2: 2rem;
+	--mb-2-5: 2.5rem;
+	/*========== z index ==========*/
+	--z-tooltip: 10;
+	--z-fixed: 100;
+}
+
+@media screen and (min-width: 968px) {
+	:root {
+		--biggest-font-size: 5.5rem;
+		--bigger-font-size: 4.5rem;
+		--big-font-size: 4rem;
+		--h2-font-size: 1.5rem;
+		--h3-font-size: 1.25rem;
+		--normal-font-size: 1rem;
+		--small-font-size: 0.875rem;
+		--smaller-font-size: 0.813rem;
+	}
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  background-color: black; /* Fondo negro */
+  color: white; /* Color de texto blanco */
+}
+
+.productos-edit {
+  display: flex;
+  justify-content: center;
+  margin: 60px;
+  height: auto;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.productos-edit > div {
+  background-color: black;
+  width: 100%;
+  height: auto;
+  margin: 25px;
+  gap: 10px;
+  animation: slideTop 0.5s ease-out;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.producto-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: black;
+  border-radius: 10px;
+  backdrop-filter: blur(8.5px);
+  -webkit-backdrop-filter: blur(8.5px);
+}
+
+.airpods-2-gen {
+  display: flex;
+  flex-direction: column; /* Se apilan verticalmente en pantallas pequeñas */
+  width: 100%;
+  padding: 20px;
+}
+
+.product-image {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  top: 20px;
+}
+
+.product-image img {
+  width: 100%;
+  max-height: 600px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-images-thumbnails {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.product-images-thumbnails .thumb {
+  width: 60px;
+  height: 60px;
+  margin: 0 5px;
+  cursor: pointer;
+  opacity: 0.6;
+  border-radius: 8px;
+  transition: opacity 0.3s;
+}
+
+.product-images-thumbnails .thumb:hover,
+.product-images-thumbnails .thumb.active {
+  opacity: 1;
+}
+
+.product-info {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.product-info h2 {
+  margin: 0;
+  font-size: 2em;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Estilos para el botón de añadir al carrito */
+.buy-btn {
+  background-color: rgba(128, 128, 128, 0.1);
+  box-shadow: 0px 0px 10px white;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 20px; /* Añadir margen superior para espaciado */
+}
+
+.buy-btn:hover {
+  background-color: rgba(128, 128, 128, 0.1);
+  box-shadow: 0px 0px 15px white;
+  border-radius: 30px;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: space-between; /* Alinea horizontalmente en pantallas grandes */
+  margin: 15px -15px;
+}
+
+.icon-container ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.icon-container ul li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.icon-container ul li img,
+.icon-container ul li svg {
+  margin-right: 10px;
+  min-width: 24px;
+}
+
+
+
+
+
+
+
+/* Precio contenedor */
+.price-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: grey;
+  font-size: 18px;
+}
+
+.new-price {
+  color: white;
+  font-size: 18px;
+}
+
+.offer-badge {
+  border: none;
+  background-color: rgba(128, 128, 128, 0.2);
+  box-shadow: 0px 0px 4px white;
+  color: white;
+  padding: 2px 6px;
+  font-size: 14px;
+  border-radius: 30px;
+}
+
+/* Botón Cantidad de Producto */
+.quantity-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100px;
+  color: white;
+}
+
+.quantity-container button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.quantity-container input {
+  width: 40px;
+  text-align: center;
+  border: none;
+  font-size: 18px;
+  color: white;
+  background-color: transparent;
+}
+details {
+  background-color: black;
+  color: white;
+  border: 1px solid rgba(128, 128, 128, 0.5);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 15px;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+summary {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: white;
+  cursor: pointer;
+  list-style: none;
+}
+
+details[open] {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::before {
+  content: '▼';
+  font-size: 0.8em;
+  margin-right: 10px;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+details[open] summary::before {
+  transform: rotate(150deg);
+}
+
+details p, details div {
+  padding: 10px 0;
+  font-size: 1em;
+  color: #ccc;
+}
+.nohover {
+  text-decoration: none;
+  color: white;
+  padding: 8.1px;
+  border-radius: 20px;
+}
+
+
+/* Media Queries para tabletas y pantallas más grandes */
+@media (min-width: 768px) {
+  .airpods-2-gen {
+    flex-direction: row;
+  }
+
+  .product-image {
+    width: 40%;
+  }
+
+  .product-info {
+    width: 55%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-image {
+    width: 30%;
+  }
+
+  .product-info {
+    width: 60%;
+  }
+
+  .thumb {
+    width: 50px;
+    height: 50px;
+  }
+
+  .product-info h2 {
+    font-size: 2.5em;
+  }
+}
+
+/* Media Queries para pantallas móviles */
+@media (max-width: 767px) {
+  .product-image, .product-info {
+    width: 100%;
+  }
+
+  .product-info h2 {
+    font-size: 1.5em;
+  }
+
+  .thumb {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media (max-width: 768px) {
+  .icon-container {
+    flex-direction: column; /* Cambia a columna en pantallas pequeñas */
+    align-items: flex-start; /* Alinea a la izquierda en columna */
+  }
+
+  .icon-container ul li {
+    margin-bottom: 20px; /* Aumenta el espacio entre los íconos en móvil */
+  }
+}
+/*========== HOME ==========*/
+.home__data{
+  padding-top: 5rem;
+}
+.home__header{
+  position: relative;
+}
+.home__title{
+  position: absolute;
+  top: -7.6rem;
+  left: 1.1rem;
+  letter-spacing: 0.1rem;
+  line-height: 6rem;
+  font-family: var(--body-font);
+  font-size: var(--biggest-font-size);
+  background: var(--text-gradient);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.home__subtitle{
+  font-size: var(--h2-font-size);
+  letter-spacing: 0.2rem;
+  font-family: var(--body-font);
+  font-weight: var(--font-medium);
+  margin-bottom: var(--mb-1);
+}
+.home__title-description{
+  font-size: var(--h3-font-size);
+  font-weight: var(--font-medium);
+  margin-bottom: var(--mb-1);
+  text-shadow: none;
+
+}
+.home__description{
+  margin-bottom: var(--mb-2-5);
+  line-height: var(--text-line-height);
+  color: var(--text-color);
+}
+
+/*========== REUSABLE CSS CLASSES ==========*/
+.section{
+  padding: 0rem 0 2rem;
+}
+.section__title{
+  font-size: var(--bigger-font-size);
+  text-align: center;
+  margin-bottom: var(--mb-2-5);
+  font-family: var(--body-font);
+}
+.section__title-gradient {
+  background: var(--text-gradient);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/*========== LAYOUT ==========*/
+.main {
+  overflow: hidden;
+}
+
+.container{
+  max-width: 968px;
+  margin-left: var(--mb-1-5);
+  margin-right: var(--mb-1-5);
+}
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+/*========== specs ==========*/
+.specs__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: nowrap;
+  
+}
+
+.specs__content {
+  display: grid;
+  gap: 1.5rem;
+  flex: 1;
+	row-gap: 3.5rem;
+}
+
+.specs__data {
+	display: grid;
+	row-gap: 0.25rem;
+}
+
+.specs__icon {
+	font-size: 1.2rem;
+	color: var(--white-color);
+}
+
+.specs__title {
+	font-size: var(--normal-font-size);
+	font-weight: var(--font-medium);
+  margin: 0;
+}
+
+.specs__subtitle {
+	font-size: var(--smaller-font-size);
+  color: var(--text-color);
+}
+
+.specs__data:nth-child(1),
+.specs__data:nth-child(4) {
+	margin-left: 1.5rem;
+}
+
+.specs__img{
+  max-width: 100%;
+  min-width: 340px;
+  width: auto;
+  flex-basis: 40%;
+  
+  transition: width 0.3s;
+}
+@media (max-width: 768px) {
+  .specs__container {
+    flex-wrap: nowrap;      /* Permitir ajuste en pantallas pequeñas */
+    gap: 1rem;
+    margin: -50px;
+  }
+  .specs__img {
+    max-width: 430px;     /* Limitar el tamaño máximo en móviles */
+    min-width: 150px;     /* Ancho mínimo para pantallas muy pequeñas */
+    flex-basis: 100%;     /* Ocupar todo el ancho en pantallas muy pequeñas */
+    margin-bottom: 1rem;
+  }
+  .case__container {
+    flex-wrap: nowrap;      /* Permitir ajuste en pantallas pequeñas */
+    gap: 1rem;
+  }
+  .case__img {
+    max-width: 40%;     /* Limitar el tamaño máximo en móviles */
+    min-width: 150px;     /* Ancho mínimo en móviles */
+    flex-basis: 40%;     /* Ocupar todo el ancho en pantallas muy pequeñas */
+    margin-left: -150px;
+  }
+  .case__data {
+    max-width: 60%;
+  }
+  .discount__container {
+    flex-direction: column; /* Cambiar a columna en móviles */
+    padding: 2rem; /* Aumentar padding en móviles */
+    max-width: 100%; /* Usar todo el ancho */
+  }
+
+  .discount__animate {
+    max-width: 100%; /* Texto en todo el ancho */
+    text-align: center;
+  }
+
+  .discount__img {
+    max-width: 80%; /* Limitar el ancho máximo de la imagen en móviles */
+    margin-top: 1rem;
+  }
+}
+@media (min-width: 768px){
+  .specs__img {
+    max-width: 100%;
+  }
+  .case__img {
+    max-width: 100%;
+  }
+}
+/*Case*/
+.case__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0rem;
+  flex-wrap: nowrap;
+}
+
+.case__data {
+  max-width: 100%;
+	padding: 0;
+  flex-grow: 1;
+}
+
+.case__img {
+  max-width: 100%;        /* Ocupar el ancho completo del contenedor */
+  min-width: 340px;       /* Ancho mínimo en pantallas pequeñas */
+  width: auto;            /* Ajuste automático del tamaño */
+  flex-basis: 40%;        /* Ocupar un 40% del contenedor en pantallas grandes */
+  transition: width 0.3s ease;
+}
+
+.case__description {
+	margin-bottom: var(--mb-1-5);
+	line-height: var(--text-line-height);
+  color: var(--text-color);
+  
+}
+/*Discount*/
+.discount__container {
+  display: flex;
+	background-color: var(--container-color);
+	padding: 2rem 4.5rem;
+	border-radius: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  margin: -55px;
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.discount__title {
+	font-size: var(--h3-font-size);
+	margin-bottom: var(--mb-0-75);
+}
+
+.discount__description {
+	margin-bottom: var(--mb-1);
+  color: var(--text-color);
+}
+
+.discount__img {
+	  max-width: 55%;
+    width: 100%;
+    position: relative;
+    margin-top: 1rem;
+}
+
+
+.option-container label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.option-container input[type="radio"] {
+  display: none;
+}
+
+.option-container .custom-radio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  margin-right: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Relleno al estar seleccionado */
+.option-container input[type="radio"]:checked + .custom-radio {
+  background-color: #fff;
+  border-color: #007bff;
+}
+    </style>
 </head>
 <body>
     <header>
@@ -621,7 +1466,91 @@
   
   </footer>
   <!-- END OF FOOTER -->
-  
+  <script>
+      // Función de animación de escritura
+function typingEffect(element, text, speed) {
+    let i = 0;
+    element.innerHTML = ''; // Limpiar el contenido previo
+    element.style.opacity = '1'; // Asegurarse de que el elemento sea visible al inicio
+    const interval = setInterval(() => {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+        } else {
+            clearInterval(interval);
+            // Mostrar el párrafo con una pequeña demora después de completar la escritura
+            const description = document.getElementById('description');
+            description.style.display = 'block'; // Mostrar el párrafo
+            setTimeout(() => {
+                description.style.opacity = '1'; // Hacerlo visible
+            }, 100); // Esperar un poco antes de hacer la transición
+        }
+    }, speed);
+}
+
+
+// Llamada a la función de escritura
+const sloganElement = document.getElementById('slogan');
+const sloganText = '¡Escucha sin límites, con calidad perfecta y estilo inigualable!';
+typingEffect(sloganElement, sloganText, 75); // Velocidad de escritura
+
+// Modelo 3D e interacción
+let isModelVisible = false;
+let isLidOpen = false;
+let lid;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x000000, 0);
+document.getElementById('modelContainer').appendChild(renderer.domElement);
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(1, 1, 1).normalize();
+scene.add(light);
+const loader = new THREE.GLTFLoader();
+let model;
+loader.load('airpods.glb', function(gltf) {
+    model = gltf.scene;
+    model.position.y = -3.9;
+    model.position.x = 0;
+    model.scale.set(0.6, 0.6, 0.6);
+    scene.add(model);
+    render();
+}, undefined, function(error) {
+    console.error(error);
+});
+camera.position.z = 6;
+function render() {
+    if (isModelVisible && model) {
+        model.rotation.y += 0.005;
+    }
+    renderer.render(scene, camera);
+    requestAnimationFrame(render);
+}
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            isModelVisible = true;
+            isLidOpen = true;
+        } else {
+            isModelVisible = false;
+            isLidOpen = false;
+        }
+    });
+}, {
+    threshold: 0.1
+});
+observer.observe(document.getElementById('modelContainer'));
+window.addEventListener('resize', function() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+});
+  </script>
+    
   <script src="/airdrop-main/WEB2.0/js/reviews.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
